@@ -277,7 +277,29 @@ const App = () => {
             <Card key={index} style={{ marginBottom: '16px' }}>
               <CardContent>
                 <Grid container spacing={2}>
+                <Grid item xs={3}>
+                  {carrierLogos[ticket.carrier] ? (
+  <img
+    src= {carrierLogos[ticket.carrier]}
+    alt={ticket.carrier}
+    style={{ width: '100px', height: 'auto' }}
+  />
+) : (
+  <Typography>Логотип не найден для {ticket.carrier}</Typography>
+)}
+                   <Button variant="contained" sx={{backgroundColor: "orange"}} >
+                     Купить  <br/>
+                     
+                     за {convertPrice(ticket.price)} {currency}
+                  
+                   </Button>
+                  </Grid>
+                {/* <Grid item xs={3}>
+                   
+                  
+                 </Grid> */}
                   <Grid item xs={6}>
+                  <Typography>Пересадок: {ticket.stops}</Typography>
                     <Typography variant="h6">
                       {ticket.origin_name} → {ticket.destination_name}
                     </Typography>
@@ -288,27 +310,8 @@ const App = () => {
                   Прилет: {formatTicketDate(ticket.arrival_date)}  {ticket.arrival_time}
                     </Typography>
                   </Grid>
-                  <Grid item xs={3}>
-                  {carrierLogos[ticket.carrier] ? (
-  <img
-    src= {carrierLogos[ticket.carrier]}
-    alt={ticket.carrier}
-    style={{ width: '100px', height: 'auto' }}
-  />
-) : (
-  <Typography>Логотип не найден для {ticket.carrier}</Typography>
-)}
-                    <Typography>Пересадок: {ticket.stops}</Typography>
-                  </Grid>
-                  <Grid item xs={3}>
-                   
-                    <Button variant="contained" color="primary">
-                      Купить за <br/>
-                      
-                    {convertPrice(ticket.price)} {currency}
-                   
-                    </Button>
-                  </Grid>
+                
+               
                 </Grid>
               </CardContent>
             </Card>
