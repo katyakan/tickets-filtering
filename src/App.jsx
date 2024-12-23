@@ -247,9 +247,9 @@ const App = () => {
         aria-label="currency-tabs"
         indicatorColor="primary"
       >
-        <Tab label="Рубли" value="RUB" />
-        <Tab label="Доллары" value="USD" />
-        <Tab label="Евро" value="EUR" />
+        <Tab label="RUB" value="RUB" />
+        <Tab label="USD" value="USD" />
+        <Tab label="EUR" value="EUR" />
       </Tabs>
 
       <Grid container spacing={3}>
@@ -282,20 +282,17 @@ const App = () => {
   <img
     src= {carrierLogos[ticket.carrier]}
     alt={ticket.carrier}
-    style={{ width: '200px', height: 'auto' }}
+    style={{ width: '180px', height: 'auto' }}
   />
 ) : (
   <Typography>Логотип не найден для {ticket.carrier}</Typography>
 )}
-                   <Button variant="contained" sx={{backgroundColor: "orange", padding: "16px", width: "200px"}} >
+                   <Button variant="contained" sx={{backgroundColor: "orange", padding: "16px", width: "180px"}} >
                      Купить  <br/>
                                           за {convertPrice(ticket.price)} {currency}
                                      </Button>
                   </Grid>
-                {/* <Grid item xs={3}>
-                   
-                  
-                 </Grid> */}
+             
                   <Grid item xs={3}>
                   <Typography>  {ticket.departure_time}
                  </Typography>
@@ -305,20 +302,22 @@ const App = () => {
                     <Typography>
                    {formatTicketDate(ticket.departure_date)}
                     </Typography>
-                    {/* <Typography>
-                  Прилет: {formatTicketDate(ticket.arrival_date)}  {ticket.arrival_time}
-                    </Typography> */}
+         
                   </Grid>
                 
                <Grid item xs={3}>     <Typography>  
-               Пересадок: {ticket.stops}</Typography>→</Grid>
+               Пересадок: {ticket.stops}</Typography>
+               <img
+    src= "/logos/arrow.jpg"
+    alt="arrow"
+    style={{ width: '120px', height: 'auto' }}
+  />
+               </Grid>
                <Grid item xs={3}>  <Typography> {ticket.arrival_time} </Typography>
                     <Typography variant="h6">
                      {ticket.destination_name}
                     </Typography>
-                    {/* <Typography>
-                    Вылет: {formatTicketDate(ticket.departure_date)}  {ticket.departure_time}
-                    </Typography> */}
+           
                     <Typography>
                  {formatTicketDate(ticket.arrival_date)} 
                     </Typography></Grid>
