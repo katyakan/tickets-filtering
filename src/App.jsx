@@ -166,7 +166,12 @@ const tickets = [{
   "stops": 0,
   "price": 17400
 }];
-
+const carrierLogos = {
+  "TK": "/logos/tk.png", 
+  "S7": "/logos/s7.png", 
+  "SU": "/logos/su.png", 
+  "BA": "/logos/ba.png", 
+};
 
 const App = () => {
   const [filters, setFilters] = useState({
@@ -284,7 +289,15 @@ const App = () => {
                     </Typography>
                   </Grid>
                   <Grid item xs={3}>
-                    <Typography>Перевозчик: {ticket.carrier}</Typography>
+                  {carrierLogos[ticket.carrier] ? (
+  <img
+    src= {carrierLogos[ticket.carrier]}
+    alt={ticket.carrier}
+    style={{ width: '100px', height: 'auto' }}
+  />
+) : (
+  <Typography>Логотип не найден для {ticket.carrier}</Typography>
+)}
                     <Typography>Пересадок: {ticket.stops}</Typography>
                   </Grid>
                   <Grid item xs={3}>
