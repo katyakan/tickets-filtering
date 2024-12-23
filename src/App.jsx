@@ -1,4 +1,6 @@
 import React, { useState,  useEffect } from 'react';
+import { format } from 'date-fns';
+import ru from 'date-fns/locale/ru';
 import {
   Box,
   Button,
@@ -12,6 +14,7 @@ import {
   Tab
 } from '@mui/material';
 import axios from 'axios';
+
 
 const tickets = [{
   "origin": "VVO",
@@ -163,11 +166,6 @@ const tickets = [{
   "stops": 0,
   "price": 17400
 }];
-// const exchangeRates = {
-//   RUB: 1,
-//   USD: 1 / 80, 
-//   EUR: 1 / 90, 
-// };
 
 
 const App = () => {
@@ -225,6 +223,14 @@ const App = () => {
         return price; 
     }
   };
+
+    const formatTicketDate = (dateString) => {
+      const dateParts = dateString.split('.');
+      const formattedDate = new Date(`20${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`);
+      return format(formattedDate, "d MMM yyyy, EEE", { locale: ru });
+    };
+  
+
   return (
     <Box p={4}>
       <Typography variant="h4" mb={2}>
@@ -271,10 +277,10 @@ const App = () => {
                       {ticket.origin_name} → {ticket.destination_name}
                     </Typography>
                     <Typography>
-                      Вылет: {ticket.departure_date} {ticket.departure_time}
+                    Вылет: {formatTicketDate(ticket.departure_date)}  {ticket.departure_time}
                     </Typography>
                     <Typography>
-                      Прилет: {ticket.arrival_date} {ticket.arrival_time}
+                  Прилет: {formatTicketDate(ticket.arrival_date)}  {ticket.arrival_time}
                     </Typography>
                   </Grid>
                   <Grid item xs={3}>
@@ -282,11 +288,12 @@ const App = () => {
                     <Typography>Пересадок: {ticket.stops}</Typography>
                   </Grid>
                   <Grid item xs={3}>
-                    <Typography variant="h6" color="primary">
-                    {convertPrice(ticket.price)} {currency}
-                    </Typography>
+                   
                     <Button variant="contained" color="primary">
-                      Купить
+                      Купить за <br/>
+                      
+                    {convertPrice(ticket.price)} {currency}
+                   
                     </Button>
                   </Grid>
                 </Grid>
