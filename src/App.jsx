@@ -282,17 +282,15 @@ const App = () => {
   <img
     src= {carrierLogos[ticket.carrier]}
     alt={ticket.carrier}
-    style={{ width: '100px', height: 'auto' }}
+    style={{ width: '200px', height: 'auto' }}
   />
 ) : (
   <Typography>Логотип не найден для {ticket.carrier}</Typography>
 )}
-                   <Button variant="contained" sx={{backgroundColor: "orange"}} >
+                   <Button variant="contained" sx={{backgroundColor: "orange", padding: "16px", width: "200px"}} >
                      Купить  <br/>
-                     
-                     за {convertPrice(ticket.price)} {currency}
-                  
-                   </Button>
+                                          за {convertPrice(ticket.price)} {currency}
+                                     </Button>
                   </Grid>
                 {/* <Grid item xs={3}>
                    
