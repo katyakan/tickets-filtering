@@ -238,7 +238,7 @@ const App = () => {
 
   return (
     <Box p={4}>
-      <Typography variant="h4" mb={2}>
+         <Typography variant="h6" gutterBottom>
       Валюта
       </Typography>
       <Tabs
@@ -246,6 +246,21 @@ const App = () => {
         onChange={handleCurrencyChange}
         aria-label="currency-tabs"
         indicatorColor="primary"
+        // indicatorColor="secondary"
+        textColor="inherit"
+        // variant="fullWidth"
+        sx={{
+          '.MuiTab-root': {
+            border: '1px solid gray',
+            '&:hover': {
+              backgroundColor: 'lightblue', 
+            },
+            '&.Mui-selected': {
+              backgroundColor: 'blue', 
+              color: 'white', 
+            },
+          },
+        }}
       >
         <Tab label="RUB" value="RUB" />
         <Tab label="USD" value="USD" />
