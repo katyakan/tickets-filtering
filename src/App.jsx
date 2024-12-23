@@ -276,7 +276,7 @@ const App = () => {
           {filteredTickets.map((ticket, index) => (
             <Card key={index} style={{ marginBottom: '16px' }}>
               <CardContent>
-                <Grid container spacing={2}>
+                <Grid container spacing={3}>
                 <Grid item xs={3}>
                   {carrierLogos[ticket.carrier] ? (
   <img
@@ -296,21 +296,34 @@ const App = () => {
                    
                   
                  </Grid> */}
-                  <Grid item xs={6}>
-                  <Typography>Пересадок: {ticket.stops}</Typography>
+                  <Grid item xs={3}>
+                  <Typography>  {ticket.departure_time}
+                 </Typography>
                     <Typography variant="h6">
-                      {ticket.origin_name} → {ticket.destination_name}
+                      {ticket.origin_name}
                     </Typography>
                     <Typography>
-                    Вылет: {formatTicketDate(ticket.departure_date)}  {ticket.departure_time}
+                   {formatTicketDate(ticket.departure_date)}
                     </Typography>
-                    <Typography>
+                    {/* <Typography>
                   Прилет: {formatTicketDate(ticket.arrival_date)}  {ticket.arrival_time}
-                    </Typography>
+                    </Typography> */}
                   </Grid>
                 
-               
+               <Grid item xs={3}>     <Typography>  
+               Пересадок: {ticket.stops}</Typography>→</Grid>
+               <Grid item xs={3}>  <Typography> {ticket.arrival_time} </Typography>
+                    <Typography variant="h6">
+                     {ticket.destination_name}
+                    </Typography>
+                    {/* <Typography>
+                    Вылет: {formatTicketDate(ticket.departure_date)}  {ticket.departure_time}
+                    </Typography> */}
+                    <Typography>
+                 {formatTicketDate(ticket.arrival_date)} 
+                    </Typography></Grid>
                 </Grid>
+                
               </CardContent>
             </Card>
           ))}
