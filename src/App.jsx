@@ -14,158 +14,8 @@ import {
   Tab
 } from '@mui/material';
 import axios from 'axios';
-
-
-const tickets = [{
-  "origin": "VVO",
-  "origin_name": "Владивосток",
-  "destination": "TLV",
-  "destination_name": "Тель-Авив",
-  "departure_date": "12.05.18",
-  "departure_time": "16:20",
-  "arrival_date": "12.05.18",
-  "arrival_time": "22:10",
-  "carrier": "TK",
-  "stops": 3,
-  "price": 12400
-}, {
-  "origin": "VVO",
-  "origin_name": "Владивосток",
-  "destination": "TLV",
-  "destination_name": "Тель-Авив",
-  "departure_date": "12.05.18",
-  "departure_time": "17:20",
-  "arrival_date": "12.05.18",
-  "arrival_time": "23:50",
-  "carrier": "S7",
-  "stops": 1,
-  "price": 13100
-}, {
-  "origin": "VVO",
-  "origin_name": "Владивосток",
-  "destination": "TLV",
-  "destination_name": "Тель-Авив",
-  "departure_date": "12.05.18",
-  "departure_time": "12:10",
-  "arrival_date": "12.05.18",
-  "arrival_time": "18:10",
-  "carrier": "SU",
-  "stops": 0,
-  "price": 15300
-}, {
-  "origin": "VVO",
-  "origin_name": "Владивосток",
-  "destination": "TLV",
-  "destination_name": "Тель-Авив",
-  "departure_date": "12.05.18",
-  "departure_time": "17:00",
-  "arrival_date": "12.05.18",
-  "arrival_time": "23:30",
-  "carrier": "TK",
-  "stops": 2,
-  "price": 11000
-}, {
-  "origin": "VVO",
-  "origin_name": "Владивосток",
-  "destination": "TLV",
-  "destination_name": "Тель-Авив",
-  "departure_date": "12.05.18",
-  "departure_time": "12:10",
-  "arrival_date": "12.05.18",
-  "arrival_time": "20:15",
-  "carrier": "BA",
-  "stops": 3,
-  "price": 13400
-}, {
-  "origin": "VVO",
-  "origin_name": "Владивосток",
-  "destination": "TLV",
-  "destination_name": "Тель-Авив",
-  "departure_date": "12.05.18",
-  "departure_time": "9:40",
-  "arrival_date": "12.05.18",
-  "arrival_time": "19:25",
-  "carrier": "SU",
-  "stops": 3,
-  "price": 12450
-}, {
-  "origin": "VVO",
-  "origin_name": "Владивосток",
-  "destination": "TLV",
-  "destination_name": "Тель-Авив",
-  "departure_date": "12.05.18",
-  "departure_time": "17:10",
-  "arrival_date": "12.05.18",
-  "arrival_time": "23:45",
-  "carrier": "TK",
-  "stops": 1,
-  "price": 13600
-}, 
-{
-  "origin": "VVO",
-  "origin_name": "Владивосток",
-  "destination": "UFA",
-  "destination_name": "Уфа",
-  "departure_date": "12.05.18",
-  "departure_time": "15:15",
-  "arrival_date": "12.05.18",
-  "arrival_time": "17:45",
-  "carrier": "TK",
-  "stops": 1,
-  "price": 33400
-},
-{
-  "origin": "VVO",
-  "origin_name": "Владивосток",
-  "destination": "TLV",
-  "destination_name": "Тель-Авив",
-  "departure_date": "12.05.18",
-  "departure_time": "6:10",
-  "arrival_date": "12.05.18",
-  "arrival_time": "15:25",
-  "carrier": "TK",
-  "stops": 0,
-  "price": 14250
-}, 
-{
-  "origin": "LRN",
-  "origin_name": "Ларнака",
-  "destination": "TLV",
-  "destination_name": "Тель-Авив",
-  "departure_date": "12.05.18",
-  "departure_time": "12:50",
-  "arrival_date": "12.05.18",
-  "arrival_time": "14:30",
-  "carrier": "SU",
-  "stops": 1,
-  "price": 7000
-},
-{
-  "origin": "VVO",
-  "origin_name": "Владивосток",
-  "destination": "TLV",
-  "destination_name": "Тель-Авив",
-  "departure_date": "12.05.18",
-  "departure_time": "16:50",
-  "arrival_date": "12.05.18",
-  "arrival_time": "23:35",
-  "carrier": "SU",
-  "stops": 1,
-  "price": 16700
-}, 
-{
-  "origin": "VVO",
-  "origin_name": "Владивосток",
-  "destination": "TLV",
-  "destination_name": "Тель-Авив",
-  "departure_date": "12.05.18",
-  "departure_time": "6:10",
-  "arrival_date": "12.05.18",
-  "arrival_time": "16:15",
-  "carrier": "S7",
-  "stops": 0,
-  "price": 17400
-}];
+import data from './data/tickets.json';
+const tickets = data?.tickets;
 const carrierLogos = {
   "TK": "/logos/tk.png", 
   "S7": "/logos/s7.png", 
@@ -184,6 +34,7 @@ const App = () => {
   });
   const [currency, setCurrency] = useState('RUB');
   const [rates, setRates] = useState({ USD: 1, EUR: 1 });
+  const [hoveredStop, setHoveredStop] = useState(null);
   useEffect(() => {
     const fetchExchangeRates = async () => {
       try {
@@ -205,16 +56,16 @@ const App = () => {
 
     fetchExchangeRates();
   }, []);
-  const handleFilterChange = (stopCount) => {
-    setFilters((prevFilters) => ({
-      stops: {
-        ...prevFilters.stops,
-        [stopCount]: !prevFilters.stops[stopCount],
-      },
-    }));
-  };
+  // const handleFilterChange = (stopCount) => {
+  //   setFilters((prevFilters) => ({
+  //     stops: {
+  //       ...prevFilters.stops,
+  //       [stopCount]: !prevFilters.stops[stopCount],
+  //     },
+  //   }));
+  // };
 
-  const filteredTickets = tickets.filter((ticket) => filters.stops[ticket.stops]);
+  const filteredTickets = tickets?.filter((ticket) => filters.stops[ticket.stops]);
   const handleCurrencyChange = (event, newCurrency) => {
     setCurrency(newCurrency);
   };
@@ -235,7 +86,44 @@ const App = () => {
       return format(formattedDate, "d MMM yyyy, EEE", { locale: ru });
     };
   
+    const handleOnlyClick = (stopCount) => {
+      setFilters({
+        stops: {
+          0: false,
+          1: false,
+          2: false,
+          3: false,
+          [stopCount]: true,
+        },
+        only: stopCount, // Храним состояние "Только" для выбранного фильтра
+      });
+    };
+    const handleFilterChange = (stopCount) => {
+      setFilters((prevFilters) => {
+        const updatedStops = {
+          ...prevFilters.stops,
+          [stopCount]: !prevFilters.stops[stopCount],
+        };
+        
+        // Если пользователь изменил другой фильтр, сбрасываем "Только"
+        return {
+          stops: updatedStops,
+          only: null,
+        };
+      });
+    };
 
+
+    const handleMouseEnter = (stopCount) => {
+      if (filters.stops[stopCount]) {
+        setHoveredStop(stopCount); // Показываем кнопку только если чекбокс активен
+      }
+    };
+  
+    const handleMouseLeave = () => {
+      setHoveredStop(null); // Прячем кнопку при уходе мыши
+    };
+  
   return (
     <Box p={4}>
          <Typography variant="h6" gutterBottom>
@@ -246,9 +134,9 @@ const App = () => {
         onChange={handleCurrencyChange}
         aria-label="currency-tabs"
         indicatorColor="primary"
-        // indicatorColor="secondary"
+     
         textColor="inherit"
-        // variant="fullWidth"
+      
         sx={{
           '.MuiTab-root': {
             border: '1px solid gray',
@@ -273,18 +161,38 @@ const App = () => {
             <Typography variant="h6" gutterBottom>
               Количество пересадок
             </Typography>
-            {[0, 1, 2, 3].map((stopCount) => (
-              <FormControlLabel
-                key={stopCount}
-                control={
-                  <Checkbox
-                    checked={filters.stops[stopCount]}
-                    onChange={() => handleFilterChange(stopCount)}
-                  />
-                }
-                label={stopCount === 0 ? 'Без пересадок' : `${stopCount} пересадка(-и)`}
-              />
-            ))}
+            <Box>
+        {[0, 1, 2, 3].map((stopCount) => (
+          <Box key={stopCount} display="flex" alignItems="center" mb={1} 
+          onMouseEnter={() => handleMouseEnter(stopCount)} // Добавляем обработчик ховера
+          onMouseLeave={handleMouseLeave} // Убираем кнопку при уходе мыши
+          >
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={filters.stops[stopCount]}
+                  onChange={() => handleFilterChange(stopCount)}
+                />
+              }
+              label={`${stopCount} пересад${stopCount === 1 ? "ка" : "ки"}`}
+            />
+            {filters.stops[stopCount] && hoveredStop === stopCount && ( 
+                    <Button
+                      variant="text"
+                      color="primary"
+                      size="small"
+                      onClick={() => handleOnlyClick(stopCount)}
+                      style={{
+                        marginLeft: '8px',
+                        display: 'inline',
+                      }}
+                    >
+                      Только
+                    </Button>
+                  )}
+          </Box>
+        ))}
+      </Box>
           </Box>
         </Grid>
         <Grid item xs={9}>
